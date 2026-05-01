@@ -15,5 +15,5 @@ def recevoir_donnees():
 
     # Si le token est bon, on traite la donnée
     data = request.get_json()
-    return jsonify({"status": "succès", "message": "Authentification réussie !"})
+    return jsonify({"status": "succès", "message": "Authentification réussie !"}), 200
 
