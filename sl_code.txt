@@ -22,7 +22,10 @@ local function envoyerDonnees(nom, score)
     -- Envoi de la requête HTTP POST
     -- On stocke l'ID de la requête pour la vérifier plus tard
     requete_id = ll.HTTPRequest(URL_SERVEUR, 
-        [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], 
+        [HTTP_METHOD, "POST",
+        HTTP_MIMETYPE, "application/json",
+        "X-API-Key", SECRET_TOKEN  -- Votre Token de sécurité
+        ], 
         corps_json)
     ll.OwnerSay("Requête envoyée, attente du serveur...")
 end
