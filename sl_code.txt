@@ -4,6 +4,8 @@
 
 --local URL_SERVEUR = "https://votre-serveur-python.com"
 local URL_SERVEUR = "https://onrender.com"
+local SECRET_TOKEN = "MaCleSecrete123!" -- Choisissez une clé complexe
+
 local requete_id  -- Pour identifier la réponse spécifique
 
 local function envoyerDonnees(nom, score)
