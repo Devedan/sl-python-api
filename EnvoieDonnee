@@ -2,7 +2,9 @@
 --Dans cet exemple, nous utilisons la syntaxe SLua (Luau) pour envoyer des données JSON à une URL imaginaire.
 -- Script Luau (SLua)
 
-local URL_SERVEUR = "https://votre-serveur-python.com"
+--local URL_SERVEUR = "https://votre-serveur-python.com"
+local URL_SERVEUR = "https://onrender.com"
+local requete_id  -- Pour identifier la réponse spécifique
 
 local function envoyerDonnees(nom, score)
     -- On prépare la table de données
@@ -16,9 +18,11 @@ local function envoyerDonnees(nom, score)
     local corps_json = ll.JsonEncode(donnees)
     
     -- Envoi de la requête HTTP POST
-    ll.HTTPRequest(URL_SERVEUR, 
+    -- On stocke l'ID de la requête pour la vérifier plus tard
+    requete_id = ll.HTTPRequest(URL_SERVEUR, 
         [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], 
         corps_json)
+    ll.OwnerSay("Requête envoyée, attente du serveur...")
 end
 
 -- Exemple d'activation au toucher
@@ -27,3 +31,24 @@ function LLEvents.touch_start(num)
     ll.OwnerSay("Données envoyées au serveur Python !")
 end
 
+-- Événement qui reçoit la réponse
+function LLEvents.http_response(id, statut, metadonnees, corps)
+    -- On vérifie que c'est bien la réponse à notre requête
+    if id ~= requete_id then
+        return 
+    end
+
+    if statut == 200 then
+        -- On décode le JSON renvoyé par Python
+        local reponse_table = ll.JsonDecode(corps)
+        
+        -- On accède aux données (ex: le champ "message" défini dans votre Flask)
+        if reponse_table.status == "succès" then
+            ll.OwnerSay("Réponse du serveur Python : " .. reponse_table.message)
+        else
+            ll.OwnerSay("Le serveur a répondu avec une erreur : " .. corps)
+        end
+    else
+        ll.OwnerSay("Erreur de connexion (Code : " .. (string)statut .. ")")
+    end
+end
