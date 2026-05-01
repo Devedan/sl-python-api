@@ -1,6 +1,6 @@
 flask==3.0.*
 gunicorn==21.2.*
 requests==2.31.*
-* flask : Le framework web.
-* gunicorn : Le serveur de production (obligatoire pour "Render/Koyeb").
-* requests : Utile si votre serveur Python doit lui-même interroger "d'autres sites web".
+// *flask : Le framework web.
+// *gunicorn : Le serveur de production (obligatoire pour "Render/Koyeb").
+// *requests : Utile si votre serveur Python doit lui-même interroger "d'autres sites web".
