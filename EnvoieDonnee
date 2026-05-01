@@ -1,1 +1,29 @@
+--## 1. Côté Second Life : Le script Luau
+--Dans cet exemple, nous utilisons la syntaxe SLua (Luau) pour envoyer des données JSON à une URL imaginaire.
+-- Script Luau (SLua)
+
+local URL_SERVEUR = "https://votre-serveur-python.com"
+
+local function envoyerDonnees(nom, score)
+    -- On prépare la table de données
+    local donnees = {
+        objet_nom = nom,
+        valeur = score,
+        timestamp = os.time()
+    }
+    
+    -- Conversion en JSON (fonction native Luau/SLua)
+    local corps_json = ll.JsonEncode(donnees)
+    
+    -- Envoi de la requête HTTP POST
+    ll.HTTPRequest(URL_SERVEUR, 
+        [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], 
+        corps_json)
+end
+
+-- Exemple d'activation au toucher
+function LLEvents.touch_start(num)
+    envoyerDonnees(ll.GetObjectName(), 42)
+    ll.OwnerSay("Données envoyées au serveur Python !")
+end
 
